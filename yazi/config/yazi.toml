@@ -33,10 +33,12 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 edit = [
 	{ run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
 	{ run = 'code %*',    orphan = true, desc = "code",           for = "windows" },
-    { run = 'rider %*',    orphan = true, desc = "rider",       for = "windows" },
-    { run = 'nvim %*',    orphan = true, desc = "neovim",       for = "windows" },
-    { run = 'devenv %*',    orphan = true, desc = "VisualStudio",       for = "windows" },
 	{ run = 'code -w %*', block = true,  desc = "code (block)",   for = "windows" },
+]
+sln = [
+    { run = 'devenv %*',    orphan = true, desc = "VisualStudio", for = "windows" },
+    { run = 'rider64 %*',    orphan = true, desc = "rider",       for = "windows" },
+	{ run = 'code %*',    orphan = true, desc = "code",           for = "windows" },
 ]
 open = [
 	{ run = 'xdg-open "$1"',                desc = "Open", for = "linux" },
@@ -60,13 +62,14 @@ play = [
 ]
 
 [open]
+prepend_rules = [
+	{ name = "*.sln", use = "sln" },
+]
 rules = [
 	# Folder
 	{ name = "*/", use = [ "edit", "open", "reveal" ] },
 	# Text
 	{ mime = "text/*", use = [ "edit", "reveal" ] },
-    # SLN
-	{ mime = "sln/*", use = [ "edit", "reveal" ] },
 	# Image
 	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
